@@ -1,2 +1,51 @@
-public class ArrayStack {
+import java.util.ArrayList;
+
+public class ArrayStack<T> {
+    private int maxsize;
+    private ArrayList<T> items;
+
+    public ArrayStack(int maxsize){
+        if (maxsize <= 0)
+            throw new ArrayStackException("Stack size must be positive");
+        this.maxsize = maxsize;
+        this.items = new ArrayList<>();
+    }
+
+    public void push(T item){
+        if (items.size() == maxsize)
+            throw new ArrayStackException("Overflow Error");
+        items.add(item);
+    }
+
+    public T pop(){
+        if (isEmpty())
+            throw new ArrayStackException("Underflow Error");
+        return items.remove(items.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return items.isEmpty();
+    }
+    public static class ArrayStackException extends RuntimeException {
+        public ArrayStackException(String message) {
+            super(message);
+        }
+    }
+    public static void main(String[] args) {
+        ArrayStack<Integer> stack = new ArrayStack<>(3);
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        //stack.push(4); //overflow error
+        System.out.println(stack.pop()); //3
+        System.out.println(stack.pop()); //2
+        System.out.println(stack.pop()); //1
+
+        //contoh pembuktian generic dengan tipe lain
+        ArrayStack<String> words = new ArrayStack<>(2);
+        words.push("Java");
+        words.push("Collections");
+        System.out.println(words.pop()); //collections
+        System.out.println(words.pop()); //java
+    }
 }
